@@ -3,7 +3,7 @@ layout: default
 ---
 
 {% raw %}
-<a href="/Images/Target2.jpg" title="View larger picture"><img src="/images/Target2.jpg" alt="Photo of Rappy Saha"
+<a href="/Images/Target2.jpg" title="View larger picture"><img src="/Images/Target2.jpg" alt="Photo of Rappy Saha"
 style="float:right;width:25%;max-width:150px;margin-left:15px;"/></a>
 {% endraw %}
 
