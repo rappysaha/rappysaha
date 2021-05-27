@@ -3,7 +3,7 @@ layout: page
 title: Publications
 permalink: /Publications/
 ---
-#Journals
+##Journals
 1. P. P. Banik, R. Saha, and K.-D. Kim, “An Automatic Nucleus Segmentation and CNN Model 
 based Classification Method of White Blood Cell,” Expert Systems with Applications, vol. 149, 
 p. 113211, Jul. 2020. Doi: [10.1016/j.eswa.2020.113211](https://www.sciencedirect.com/science/article/abs/pii/S0957417420300373?via%3Dihub)
@@ -22,7 +22,7 @@ HDR Algorithm,” Electronics, vol. 7, no. 11, Art. no. 11, Nov. 2018. Doi:
 5. P. P. Banik, R. Saha, and K.-D. Kim, “Regression analysis for LED color detection of visualMIMO system,” Optics Communications, vol. 413, pp. 121–130, Apr. 2018. Doi: 
 [10.1016/j.optcom.2017.11.086](https://www.sciencedirect.com/science/article/abs/pii/S0030401817311045?via%3Dihub)
 
-#Conferences
+##Conferences
 1. P. P. Banik, R. Saha, T.-H. Kwon, and K.-D. Kim, “Fusing Reflectance based LDR Images to 
 Generate HDR Image,” in 2019 25th Asia-Pacific Conference on Communications (APCC), Nov. 
 2019, pp. 357–360. Doi: [10.1109/APCC47188.2019.9026460](https://ieeexplore.ieee.org/document/9026460)
