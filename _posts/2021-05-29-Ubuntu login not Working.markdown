@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Ubuntu login not Working."
+title:  "Ubuntu login not Working in VM."
 date:   2021-05-29 
 categories: jekyll update
 ---
@@ -8,22 +8,33 @@ I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display re
 <tr>
   <td><img src="screenshot1.png" style="width:100%"></td>
 </tr>
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+<br>
+It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. <br><br>
+<b>Solution</b>
+<br>Press `ctrl+alt+F3` for the tty login page. (This can be ctrl+alt+(press any button in between F1-F7, see which one works for you))<br>
+Give username. Press Enter.<br>
+Give the Password. Press Enter.<br>
+If you can login, there is still hope for you. <br>
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+Run `df -h` <br>
+<tr>
+  <td><img src="screenshot2.png" style="width:100%"></td>
+</tr>
+<br>
+We can see the `/dev/sda1` that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra `/home` folder in the column of Mounted on (that is not showing when the problem was solved).<br>
+Tried to cd `/home` but no permission.<br>
 
-Jekyll also offers powerful support for code snippets:
+`sudo ls -al /home`<br>
+<br>
+In the `/home` folder I could not see my user folder rpprnx (username). At this point, we can understand our distro is not booting from our desired sata drive (in my case `/dev/sda1`). To see the details of `dev/sda1`,<br>
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+`sudo mount /dev/sda1 /home`<br>
+`sudo ls -al /home`<br>
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+Oh! NOW I can see my rpprnx folder in the location of `/home/home/rpprnx`. To solve the problem, I ran following commands from this [post](https://askubuntu.com/questions/882385/dev-sda1-clean-this-message-appears-after-i-startup-my-laptop-then-it-w). 
 
-[jekyll-docs]: http://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+`sudo apt update`<br>
+`sudo apt clean`<br>
+`sudo apt autoremove`<br>
+<br>Run `df -h` <br>
+We will see the above screen shot with out any extra `/home` folder.

@@ -5,8 +5,8 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 11:01:29 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 11:01:29 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 13:58:23 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 13:58:23 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -709,25 +709,41 @@ Checking 64-bit read data (0-99)
       </item>
     
       <item>
-        <title>Ubuntu login not Working.</title>
+        <title>Ubuntu login not Working in VM.</title>
         <description>&lt;p&gt;I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this &lt;a href=&quot;https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&amp;amp;text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.&quot;&gt;post&lt;/a&gt;. I did not follow accordingly, and I just tried to install Guest edition from the following option.&lt;/p&gt;
 &lt;tr&gt;
   &lt;td&gt;&lt;img src=&quot;screenshot1.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
 &lt;/tr&gt;
-&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;p&gt;&lt;br /&gt;
+It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. &lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;Solution&lt;/b&gt;
+&lt;br /&gt;Press &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+alt+F3&lt;/code&gt; for the tty login page. (This can be ctrl+alt+(press any button in between F1-F7, see which one works for you))&lt;br /&gt;
+Give username. Press Enter.&lt;br /&gt;
+Give the Password. Press Enter.&lt;br /&gt;
+If you can login, there is still hope for you. &lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;df -h&lt;/code&gt; &lt;br /&gt;&lt;/p&gt;
+&lt;tr&gt;
+  &lt;td&gt;&lt;img src=&quot;screenshot2.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;p&gt;&lt;br /&gt;
+We can see the &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/sda1&lt;/code&gt; that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder in the column of Mounted on (that is not showing when the problem was solved).&lt;br /&gt;
+Tried to cd &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; but no permission.&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo ls -al /home&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+In the &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder I could not see my user folder rpprnx (username). At this point, we can understand our distro is not booting from our desired sata drive (in my case &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/sda1&lt;/code&gt;). To see the details of &lt;code class=&quot;highlighter-rouge&quot;&gt;dev/sda1&lt;/code&gt;,&lt;br /&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo mount /dev/sda1 /home&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo ls -al /home&lt;/code&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Oh! NOW I can see my rpprnx folder in the location of &lt;code class=&quot;highlighter-rouge&quot;&gt;/home/home/rpprnx&lt;/code&gt;. To solve the problem, I ran following commands from this &lt;a href=&quot;https://askubuntu.com/questions/882385/dev-sda1-clean-this-message-appears-after-i-startup-my-laptop-then-it-w&quot;&gt;post&lt;/a&gt;.&lt;/p&gt;
 
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt update&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt clean&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt autoremove&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;df -h&lt;/code&gt; &lt;br /&gt;
+We will see the above screen shot with out any extra &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder.&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
         <link>https://rappysaha.github.io/jekyll/update/2021/05/29/Ubuntu-login-not-Working.html</link>
