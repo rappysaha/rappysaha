@@ -5,10 +5,7 @@ date:   2021-05-29
 categories: jekyll update
 ---
 I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this [post](https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.). I did not follow accordingly, and I just tried to install Guest edition from the following option.
-<tr>
-  <td><img src="screenshot1.png" style="width:100%"></td>
-</tr>
-<br>
+
 <img src="{{site.baseurl}}/image/screenshot1.png">
 
 It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. <br><br>
@@ -19,9 +16,9 @@ Give the Password. Press Enter.<br>
 If you can login, there is still hope for you. <br>
 
 Run `df -h` <br>
-{% raw %}
-<a href="screenshot2.png" title="View larger picture"><img src="screenshot2.png" alt="screenshot2.png"style="width:100%;"/></a>
-{% endraw %}
+
+<img src="{{site.baseurl}}/image/screenshot2.png">
+
 We can see the `/dev/sda1` that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra `/home` folder in the column of Mounted on (that is not showing when the problem was solved).<br>
 Tried to cd `/home` but no permission.<br>
 
