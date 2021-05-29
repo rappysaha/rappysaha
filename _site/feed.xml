@@ -5,8 +5,8 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 14:20:28 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 14:20:28 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 15:14:21 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 15:14:21 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -724,7 +724,7 @@ If you can login, there is still hope for you. &lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;df -h&lt;/code&gt; &lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/rappysaha/rappysaha.github.io/tree/gh-pages/_site/jekyll/update/2021/05/29/screenshot2.png&quot; title=&quot;View larger picture&quot;&gt;&lt;img src=&quot;https://github.com/rappysaha/rappysaha.github.io/tree/gh-pages/_site/jekyll/update/2021/05/29/screenshot2.png&quot; alt=&quot;screenshot2.png&quot; style=&quot;width:100%;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;screenshot2.png&quot; title=&quot;View larger picture&quot;&gt;&amp;lt;img src=”screenshot2.png” alt=”screenshot2.png”style=”width:100%;”/&amp;gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We can see the &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/sda1&lt;/code&gt; that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder in the column of Mounted on (that is not showing when the problem was solved).&lt;br /&gt;
 Tried to cd &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; but no permission.&lt;br /&gt;&lt;/p&gt;
