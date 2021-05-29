@@ -5,12 +5,683 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 May 2021 00:58:45 +0900</pubDate>
-    <lastBuildDate>Fri, 28 May 2021 00:58:45 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 11:01:29 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 11:01:29 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
+        <title>Mdfile_sdcard_wrspeed</title>
+        <description>&lt;p&gt;–
+layout: post
+title:  “mdfile_sdcard_wrspeed”
+date:   2021-05-29 
+categories: jekyll update
+–
+# Blog Name:
+&lt;!-- &lt;span style=&quot;font-family: Times New Roman&quot;&gt; &lt;span style=&quot;font-size: 20pt&quot;&gt; SD card initialization and measure the speed of 8, 16, 32, and 64-bit integer data write-read operation in SD-Card by iFZero v1.2 &lt;/span&gt; --&gt;
+&lt;span style=&quot;font-family: Times New Roman&quot;&gt; &lt;span style=&quot;font-size: 20pt&quot;&gt; SD-Card Read/Write Speed Check by iFZero AI&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;description&quot;&gt;Description:&lt;/h2&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Times New Roman&quot;&gt; &lt;span style=&quot;font-size: 15pt&quot;&gt;The &lt;b&gt;iFZeroAI&lt;/b&gt; board is based on &lt;b&gt;iFZero&lt;/b&gt; board &lt;b&gt;(ESP32-PICO-V3 02)&lt;/b&gt;. &lt;b&gt;ESP32-PICO-V3 02&lt;/b&gt; has featured with 16 GPIOs, 18 RTC_GPIOs, 10 Touch sensors, 8-bit DAC 2 channels, 12-bit ADC 18 channels, 2 channels SPI, 1 channel I2C and so on, for details please check &lt;a href=&quot;https://www.espressif.com/sites/default/files/documentation/esp32-pico-v3-02_datasheet_en.pdf&quot;&gt;here&lt;/a&gt;. It has embedded 8 MB SPI Flash and 2 MB SPI PSRAM, as shown in the following figure.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt;&quot;&gt;&lt;ins&gt;ESP32-PICO-V3-02 Block Diagram&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;img src=&quot;esp32-pico-v3-02-blockdiagram.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Times New Roman&quot;&gt; &lt;span style=&quot;font-size: 15pt&quot;&gt;In this blog, we will show the initialization of &lt;b&gt;SD-Card&lt;/b&gt; with writing and reading integer data from 0 to 99 (which are &lt;b&gt;8, 16, 32 and 64-bit&lt;/b&gt;) in the &lt;b&gt;SD-Card&lt;/b&gt; by using and without using &lt;code class=&quot;highlighter-rouge&quot;&gt;while()&lt;/code&gt; loop. We do not use &lt;code class=&quot;highlighter-rouge&quot;&gt;for()&lt;/code&gt; loop because it consumes more time than &lt;code class=&quot;highlighter-rouge&quot;&gt;while()&lt;/code&gt; loop.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 1. Here is an overview of the essential peripherals of &lt;b&gt;iFZeroAI&lt;/b&gt; board. In the &lt;b&gt;&lt;i&gt;Front-side of iFZeroAI&lt;/i&gt;&lt;/b&gt; board, the &lt;b&gt;SD-Card&lt;/b&gt;, &lt;b&gt;Camera&lt;/b&gt;, &lt;b&gt;MEMS Microphone&lt;/b&gt;, &lt;b&gt;TFT Display&lt;/b&gt; are shown by yellow, orange, blue and green rectangular box, respectively. In the &lt;b&gt;&lt;i&gt;Rare-side of iFZeroAI&lt;/i&gt;&lt;/b&gt; board, the &lt;b&gt; iFZero&lt;/b&gt; board, 5-pin USB port, battery port, and switch are shown by dark red, light green, gray, and red rectangular box.&lt;/span&gt; &lt;/span&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt;&quot;&gt;&lt;ins&gt;Front-side of iFZeroAI&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt&quot;&gt;&lt;ins&gt;Rare-side of iFZeroAI&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;img src=&quot;iFAI_frontside.png&quot; style=&quot;width:50%&quot; /&gt;&lt;/td&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;img src=&quot;iFAI_backside.png&quot; style=&quot;width:50%&quot; /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;Since our topic in this blog is only the measurement of &lt;b&gt;SD-card&lt;/b&gt; write-read speed, so we only use the &lt;b&gt;SD-Card&lt;/b&gt; slot of the &lt;b&gt;iFZeroAI&lt;/b&gt; board. The &lt;b&gt;SD-Card&lt;/b&gt; is connected to &lt;b&gt;iFZero&lt;/b&gt; board through Serial to Parallel Interface, called &lt;b&gt;SPI&lt;/b&gt; protocol. The IO &lt;b&gt;0, 21, 19&lt;/b&gt; and &lt;b&gt;22&lt;/b&gt; pins of &lt;b&gt;iFZero&lt;/b&gt; board are connected to the &lt;b&gt;CS, CLK, MOSI&lt;/b&gt; and &lt;b&gt;MISO&lt;/b&gt; pins of &lt;b&gt;SD-Card&lt;/b&gt;, respectively, as shown in the following figure.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt;&quot;&gt;&lt;ins&gt;SPI Connection between &lt;b&gt;SD-Card&lt;/b&gt; and &lt;b&gt;iFZero Board&lt;/b&gt;&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;img src=&quot;hardware_connection.png&quot; style=&quot;width:50%&quot; /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;Before moving to the code, we need to format the SD-Card. First, we insert the SD-card in PC or laptop SD-Card slot. Then follow the following figures to format the SD-Card. Here, we show the SD-Card formatting steps in WIndows 10, version 1909 operating system.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt;&quot;&gt;&lt;ins&gt;Start SD-Card Formatting&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;span style=&quot;font-size: 15pt&quot;&gt;&lt;ins&gt;Finish SD-Card Formatting&lt;/ins&gt;&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;img src=&quot;md_sd_cardformat_start.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
+    &lt;td align=&quot;center&quot; valign=&quot;center&quot;&gt;&lt;img src=&quot;md_sd_cardformat_finish.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 2. In the Visual Studio Code, we create a project under the &lt;b&gt;Platform IO IDE&lt;/b&gt; package. In the &lt;b&gt;main.cpp&lt;/b&gt; file, located in &lt;b&gt;src&lt;/b&gt; directory, we have to write the codes which will be described in this blog. Now, we write the following necessary header files:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+#include &amp;lt;Arduino.h&amp;gt;
+#include &amp;lt;SD.h&amp;gt; // used to initialize the sd card for write and read data in SD card
+#include &quot;FS.h&quot; // used for the file-system of SD card
+#include &quot;ff.h&quot; // used to read the free and used space of SD card
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 3. Declare Pin number of &lt;b&gt;SD-Card&lt;/b&gt; to assign in &lt;code class=&quot;highlighter-rouge&quot;&gt;SPI()&lt;/code&gt; function. &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+// ************ For SD Card *****************//
+#define SD_MISO            22
+#define SD_MOSI            19
+#define SD_SCLK            21
+#define SD_CS              0
+// ************ For SD Card *****************//
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 4. Declaring the &lt;code class=&quot;highlighter-rouge&quot;&gt;File&lt;/code&gt; object that will be used to open, write, read and close the &lt;b&gt;(.bin)&lt;/b&gt; file in the &lt;b&gt;SD-Card&lt;/b&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+// ************* Variable for SD Card ************//
+File sd_file;
+// ************* Variable for SD Card ************//
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 5. Variables for 8, 16, 32 and 64-bit data, to write and read in &lt;b&gt;SD-Card&lt;/b&gt;. &lt;/span&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+#define total_data_write 100 // total number of data
+// ******** for 8-bit write &amp;amp; read **********//
+int8_t i_8bit=0;
+int8_t read_sddata_8bit[total_data_write];
+// ******** for 8-bit write &amp;amp; read **********//
+// ******** for 16-bit write &amp;amp; read **********//
+int16_t i_16bit=0;
+int16_t read_sddata_16bit[total_data_write];
+// ******** for 16-bit write &amp;amp; read **********//
+// ******** for 32-bit write &amp;amp; read **********//
+int32_t i_32bit=0;
+int32_t read_sddata_32bit[total_data_write];
+// ******** for 32-bit write &amp;amp; read **********//
+// ******** for 64-bit write &amp;amp; read **********//
+int64_t i_64bit=0;
+int64_t read_sddata_64bit[total_data_write];
+// ******** for 64-bit write &amp;amp; read **********//
+&lt;/code&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 6. Variables and user-defined function (declaration and definition) to check the size of the &lt;b&gt;SD-Card&lt;/b&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;```cpp
+uint32_t usedKb, freeKb; // variables
+bool SD_getFreeSpace(uint32_t&lt;em&gt;, uint32_t&lt;/em&gt;); // function declaration&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;* get the size of SD card **&lt;/strong&gt;*****//
+bool SD_getFreeSpace(uint32_t *tot, uint32_t *free)
+{
+  FATFS *fs;
+  DWORD fre_clust, fre_sect, tot_sect;&lt;/p&gt;
+
+&lt;p&gt;/* Get volume information and free clusters of drive 0 &lt;em&gt;/
+  if(f_getfree(“0:”, &amp;amp;fre_clust, &amp;amp;fs) == FR_OK)
+  {
+    /&lt;/em&gt; Get total sectors and free sectors &lt;em&gt;/
+    tot_sect = (fs-&amp;gt;n_fatent - 2) * fs-&amp;gt;csize;
+    fre_sect = fre_clust * fs-&amp;gt;csize;
+    *tot = tot_sect / 2;
+    *free = fre_sect / 2;
+    /&lt;/em&gt; Print the free space (assuming 512 bytes/sector) &lt;em&gt;/
+    ESP_LOGD(TAG, “%10lu KiB total drive space. %10lu KiB available.”, *tot, *free);
+    return true;
+  }
+  return false;
+}
+// &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;** get the size of SD card &lt;strong&gt;**&lt;/strong&gt;***//
+```
+&amp;gt; Reference: &lt;a href=&quot;https://www.esp32.com/viewtopic.php?f=2&amp;amp;t=9914&amp;amp;sid=78355a34d5d8da75d1400404cdb85e48&quot;&gt;Get SD card free space not updating?&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 7. Variables to measure the &lt;b&gt;SD-Card&lt;/b&gt; writing and reading speed.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+unsigned long start_tme, end_tme;
+float wrt_spd, red_spd;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; 8. Now in &lt;code class=&quot;highlighter-rouge&quot;&gt;void setup()&lt;/code&gt; function, we initialize the &lt;b&gt;SD-Card&lt;/b&gt;, checking &lt;b&gt;SD-Card&lt;/b&gt; size, checking &lt;b&gt;SD-Card&lt;/b&gt; is ok or not.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;```cpp
+void setup()
+{
+  Serial.begin(115200);&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*** initialize sd card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*
+  SPI.begin(SD_SCLK, SD_MISO, SD_MOSI, SD_CS);
+  Serial.printf(“\n\nInitializing SD card…\n”);
+  if (!SD.begin(SD_CS))
+  {
+    Serial.printf(“\nSD Init Fail\n”);
+    delay(2000);
+    while(1);
+  }
+  else
+  {
+    Serial.printf(“\nSD sucessfully initialized\n”);
+  }
+  // **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;* initialize sd card &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;*&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*** check sd card size **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*
+  if(SD_getFreeSpace(&amp;amp;usedKb, &amp;amp;freeKb))
+  {
+    Serial.printf(“\nDrive Space: %.2f GB\nAvailable: %.2f GB\n”, float(usedKb)/1024.0/1024.0, float(freeKb)/1024.0/1024.0);
+  }
+  // **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;* check sd card size &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;*&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*** checking sd-card is ok or not **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;*
+  snprintf(chr_str, sizeof(chr_str), “/data.bin”);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  Serial.printf(“\nFile %s ……”, chr_str);
+  if(sd_file.print(“\n”))
+  {
+    Serial.printf(“…Successfully created.\n”);
+  }
+  else
+  {
+    Serial.printf(“….Failed to create!\n”);
+  }
+  sd_file.close();
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*** checking sd-card is ok or not **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;*
+}
+```&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; In the serial monitor, the output of the &lt;code class=&quot;highlighter-rouge&quot;&gt;void setup()&lt;/code&gt; code is following: &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;```cpp
+SD successfully initialized&lt;/p&gt;
+
+&lt;p&gt;Drive Space: 29.70 GB
+Available: 29.70 GB&lt;/p&gt;
+
+&lt;p&gt;File /data.bin ………Successfully created.
+```&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;9. Now, we write the code to measure &lt;b&gt;SD-Card&lt;/b&gt; write-read speed in the &lt;code class=&quot;highlighter-rouge&quot;&gt;void loop()&lt;/code&gt; function.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;```cpp
+void loop()
+{
+  if(Serial.available())
+  {
+    input_m = Serial.readString();
+    input_m.toCharArray(bufff, 3);
+    if(bufff[0] == ‘R’)
+    {
+      // ########### data-8bit reading and writing speed #############
+      snprintf(chr_str, sizeof(chr_str), “/data_%dbit.bin”, sizeof(i_8bit)&lt;em&gt;8);
+      sd_file = SD.open(chr_str, FILE_WRITE);
+      // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–write integer in SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+      Serial.printf(“\n\nStart writing 8-bit from 0-%d…..”, total_data_write-1);
+      start_tme = micros();
+      i_8bit = 0;
+      while(i_8bit &amp;lt; total_data_write)
+      {
+        sd_file.write((const uint8_t &lt;em&gt;)&amp;amp;i_8bit, sizeof(i_8bit));
+        i_8bit++;
+      }
+      end_tme = micros();
+      wrt_spd = float(sizeof(i_8bit) * 8.0 * i_8bit) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+      Serial.printf(“\nWriting 0-%d complete–8-bit writing speed: %.2f bit/s”, total_data_write-1, wrt_spd);
+      // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–write integer in SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+      sd_file.close();&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  // ************ test--read data from SD card ************
+  Serial.printf(&quot;\nStart reading 8-bit from sd card.....&quot;);
+  sd_file = SD.open(chr_str, FILE_READ);
+  int count_read = 0, sdr_ret_val = 1;
+  start_tme = micros();
+  while(sdr_ret_val &amp;gt; 0)
+  {
+    sdr_ret_val = sd_file.read((uint8_t *)&amp;amp;read_sddata_8bit[count_read], sizeof(read_sddata_8bit[count_read]));
+    count_read++;
+  }
+  end_tme = micros();
+  // Serial.printf(&quot;\n time: %.2f&quot;, float(end_tme - start_tme));
+  red_spd = float(sizeof(read_sddata_8bit[0]) * 8.0) * float(count_read - 1) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nReading finish--8-bit reading speed: %.2f bit/s&quot;, red_spd);
+  // ************ test--read data from SD card ************
+  sd_file.close();
+  
+  Serial.printf(&quot;\nChecking 8-bit read data (0-%d)\n&quot;, total_data_write-1);
+  for(int j=0; j &amp;lt; count_read-1; j++)
+  {
+    if(j == count_read-2)
+    {
+      Serial.printf(&quot;%d&quot;, read_sddata_8bit[j]);  
+    }
+    else
+    {
+      Serial.printf(&quot;%d, &quot;, read_sddata_8bit[j]);
+    }
+  }
+  // ########### data-8bit reading and writing speed ############# 
+
+
+  // ########### data-16bit reading and writing speed #############
+  snprintf(chr_str, sizeof(chr_str), &quot;/data_%dbit.bin&quot;, sizeof(i_16bit)*8);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  // ************ test--write integer in SD card ************
+  Serial.printf(&quot;\n\n\nStart writing 16-bit from 0-%d.....&quot;, total_data_write-1);
+  start_tme = micros();
+  i_16bit = 0;
+  while(i_16bit &amp;lt; total_data_write)
+  {
+    sd_file.write((const uint8_t *)&amp;amp;i_16bit, sizeof(i_16bit));
+    i_16bit++;
+  }
+  end_tme = micros();
+  wrt_spd = float(sizeof(i_16bit) * 8.0 * i_16bit) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nWriting 0-%d complete--16-bit writing speed: %.2f bit/s&quot;, total_data_write-1, wrt_spd);
+  // ************ test--write integer in SD card ************
+  sd_file.close();
+
+  // ************ test--read data from SD card ************
+  Serial.printf(&quot;\nStart reading 16-bit from sd card.....&quot;);
+  sd_file = SD.open(chr_str, FILE_READ);
+  count_read = 0, sdr_ret_val = 1;
+  start_tme = micros();
+  while(sdr_ret_val &amp;gt; 0)
+  {
+    sdr_ret_val = sd_file.read((uint8_t *)&amp;amp;read_sddata_16bit[count_read], sizeof(read_sddata_16bit[count_read]));
+    count_read++;
+  }
+  end_tme = micros();
+  red_spd = float(sizeof(read_sddata_16bit[0]) * 8.0) * float(count_read - 1) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nReading finish--16-bit reading speed: %.2f bit/s&quot;, red_spd);
+  // ************ test--read data from SD card ************
+  sd_file.close();
+
+  Serial.printf(&quot;\nChecking 16-bit read data (0-%d)\n&quot;, total_data_write-1);
+  for(int j=0; j &amp;lt; count_read-1; j++)
+  {
+    if(j == count_read-2)
+    {
+      Serial.printf(&quot;%d&quot;, read_sddata_16bit[j]);  
+    }
+    else
+    {
+      Serial.printf(&quot;%d, &quot;, read_sddata_16bit[j]);
+    }
+  }
+  // ########### data-16bit reading and writing speed #############
+
+
+  // ########### data-32bit reading and writing speed #############
+  snprintf(chr_str, sizeof(chr_str), &quot;/data_%dbit.bin&quot;, sizeof(i_32bit)*8);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  // ************ test--write integer in SD card ************
+  Serial.printf(&quot;\n\n\nStart writing 32-bit from 0-%d.....&quot;, total_data_write-1);
+  start_tme = micros();
+  i_32bit = 0;
+  while(i_32bit &amp;lt; total_data_write)
+  {
+    sd_file.write((const uint8_t *)&amp;amp;i_32bit, sizeof(i_32bit));
+    i_32bit++;
+  }
+  end_tme = micros();
+  wrt_spd = float(sizeof(i_32bit) * 8.0 * float(i_32bit)) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nWriting 0-%d complete--32-bit writing speed: %.2f bit/s&quot;, total_data_write-1, wrt_spd);
+  // ************ test--write integer in SD card ************
+  sd_file.close();
+
+  // ************ test--read data from SD card ************
+  Serial.printf(&quot;\nStart reading 32-bit from sd card.....&quot;);
+  sd_file = SD.open(chr_str, FILE_READ);
+  count_read = 0, sdr_ret_val = 1;
+  start_tme = micros();
+  while(sdr_ret_val &amp;gt; 0)
+  {
+    sdr_ret_val = sd_file.read((uint8_t *)&amp;amp;read_sddata_32bit[count_read], sizeof(read_sddata_32bit[count_read]));
+    count_read++;
+  }
+  end_tme = micros();
+  red_spd = float(sizeof(read_sddata_32bit[0]) * 8.0) * float(count_read - 1) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nReading finish--32-bit reading speed: %.2f bit/s&quot;, red_spd);
+  // ************ test--read data from SD card ************
+  sd_file.close();
+
+  Serial.printf(&quot;\nChecking 32-bit read data (0-%d)\n&quot;, total_data_write-1);
+  for(int j=0; j &amp;lt; count_read-1; j++)
+  {
+    if(j == count_read-2)
+    {
+      Serial.printf(&quot;%d&quot;, read_sddata_32bit[j]);  
+    }
+    else
+    {
+      Serial.printf(&quot;%d, &quot;, read_sddata_32bit[j]);
+    }
+  }
+  // ########### data-32bit reading and writing speed #############
+
+
+  // ########### data-64bit reading and writing speed #############
+  snprintf(chr_str, sizeof(chr_str), &quot;/data_%dbit.bin&quot;, sizeof(i_64bit)*8);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  // ************ test--write integer in SD card ************
+  Serial.printf(&quot;\n\n\nStart writing 64-bit from 0-%d.....&quot;, total_data_write-1);
+  start_tme = micros();
+  i_64bit = 0;
+  while(i_64bit &amp;lt; total_data_write)
+  {
+    sd_file.write((const uint8_t *)&amp;amp;i_64bit, sizeof(i_64bit));
+    i_64bit++;
+  }
+  end_tme = micros();
+  wrt_spd = float(sizeof(i_64bit) * 8.0 * float(i_64bit)) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nWriting 0-%d complete--64-bit writing speed: %.2f bit/s&quot;, total_data_write-1, wrt_spd);
+  // ************ test--write integer in SD card ************
+  sd_file.close();
+
+  // ************ test--read data from SD card ************
+  Serial.printf(&quot;\nStart reading 64-bit from sd card.....&quot;);
+  sd_file = SD.open(chr_str, FILE_READ);
+  count_read = 0, sdr_ret_val = 1;
+  start_tme = micros();
+  while(sdr_ret_val &amp;gt; 0)
+  {
+    sdr_ret_val = sd_file.read((uint8_t *)&amp;amp;read_sddata_64bit[count_read], sizeof(read_sddata_64bit[count_read]));
+    count_read++;
+  }
+  end_tme = micros();
+  red_spd = float(sizeof(read_sddata_64bit[0]) * 8.0) * float(count_read - 1) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(&quot;\nReading finish--64-bit reading speed: %.2f bit/s&quot;, red_spd);
+  // ************ test--read data from SD card ************
+  sd_file.close();
+
+  Serial.printf(&quot;\nChecking 64-bit read data (0-%d)\n&quot;, total_data_write-1);
+  for(int j=0; j &amp;lt; count_read-1; j++)
+  {
+    if(j == count_read-2)
+    {
+      Serial.printf(&quot;%lld&quot;, read_sddata_64bit[j]);  
+    }
+    else
+    {
+      Serial.printf(&quot;%lld, &quot;, read_sddata_64bit[j]);
+    }
+  }
+  // ########### data-64bit reading and writing speed #############
+  serial_print_once = true;
+}   }   else   {
+if(serial_print_once)
+{
+  serial_print_once = false;
+  Serial.printf(&quot;\n\nPress \&quot;R\&quot; to write, read and check the read and write speed of SD-card\n&quot;);
+}   } } ```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;10. Now, we describe the code of &lt;code class=&quot;highlighter-rouge&quot;&gt;void loop()&lt;/code&gt; function. The &lt;code class=&quot;highlighter-rouge&quot;&gt;void loop()&lt;/code&gt; function is an infinite loop that runs forever and if we print anything in serial monitor terminal, we cannot see them consistently in the terminal. As our goal is to measure the write-read speed of &lt;b&gt;SD-Card&lt;/b&gt; and print it in such a way so that we can see it in the serial monitor terminal consistently. Therefore, we write the following segment of code so that user can print the speed of write-read operation of &lt;b&gt;SD-Card&lt;/b&gt; when user wishes to press “R”.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+if(Serial.available())
+{
+  input_m = Serial.readString();
+  input_m.toCharArray(bufff, 3);
+  if(bufff[0] == &#39;R&#39;)
+  {
+    // here the code of 8, 16, 32 and 64-bit sd-card write-read operation
+    ......
+  }
+}
+else
+{
+  if(serial_print_once)
+  {
+    serial_print_once = false;
+    Serial.printf(&quot;\n\nPress \&quot;R\&quot; to write, read and check the read and write speed of SD-card\n&quot;);
+  }
+}
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;The necessary variable for the above segment of code is:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+String input_m;
+char bufff[3];
+bool serial_print_once = true;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt; In the serial monitor, the output looks like following: &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
+Press &quot;R&quot; to write, read and check the read and write speed of SD-card
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;11. Now, we describe the code of 8-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type &lt;b&gt;SD-Card&lt;/b&gt; write-read operation and speed measurement of &lt;b&gt;SD-Card&lt;/b&gt;. Here, the following code writes and reads from 0 to 99 in &lt;b&gt;SD-Card&lt;/b&gt; and measaures the execution time of write-read operation by using &lt;code class=&quot;highlighter-rouge&quot;&gt;micros()&lt;/code&gt; function. After getting the execution time, we measure the speed in &lt;code class=&quot;highlighter-rouge&quot;&gt;bit/s&lt;/code&gt;. The code looks like following:&lt;/span&gt;
+&amp;gt; &lt;b&gt;Noted&lt;/b&gt;: Already the following code is shown in &lt;strong&gt;&lt;em&gt;Section 9&lt;/em&gt;&lt;/strong&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;void loop&lt;/code&gt; function, in the &lt;code class=&quot;highlighter-rouge&quot;&gt;if(bufff[0] == &#39;R&#39;)&lt;/code&gt; block.
+```cpp
+  // ########### data-8bit reading and writing speed #############
+  snprintf(chr_str, sizeof(chr_str), “/data_%dbit.bin”, sizeof(i_8bit)&lt;em&gt;8);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–write integer in SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+  Serial.printf(“\n\nStart writing 8-bit from 0-%d…..”, total_data_write-1);
+  start_tme = micros();
+  i_8bit = 0;
+  while(i_8bit &amp;lt; total_data_write)
+  {
+    sd_file.write((const uint8_t &lt;em&gt;)&amp;amp;i_8bit, sizeof(i_8bit));
+    i_8bit++;
+  }
+  end_tme = micros();
+  wrt_spd = float(sizeof(i_8bit) * 8.0 * i_8bit) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(“\nWriting 0-%d complete–8-bit writing speed: %.2f bit/s”, total_data_write-1, wrt_spd);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–write integer in SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+  sd_file.close();&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt; test–read data from SD card &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+  Serial.printf(“\nStart reading 8-bit from sd card…..”);
+  sd_file = SD.open(chr_str, FILE_READ);
+  int count_read = 0, sdr_ret_val = 1;
+  start_tme = micros();
+  while(sdr_ret_val &amp;gt; 0)
+  {
+    sdr_ret_val = sd_file.read((uint8_t &lt;em&gt;)&amp;amp;read_sddata_8bit[count_read], sizeof(read_sddata_8bit[count_read]));
+    count_read++;
+  }
+  end_tme = micros();
+  // Serial.printf(“\n time: %.2f”, float(end_tme - start_tme));
+  red_spd = float(sizeof(read_sddata_8bit[0]) * 8.0) * float(count_read - 1) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(“\nReading finish–8-bit reading speed: %.2f bit/s”, red_spd);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–read data from SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+  sd_file.close();&lt;/p&gt;
+
+&lt;p&gt;Serial.printf(“\nChecking 8-bit read data (0-%d)\n”, total_data_write-1);
+  for(int j=0; j &amp;lt; count_read-1; j++)
+  {
+    if(j == count_read-2)
+    {
+      Serial.printf(“%d”, read_sddata_8bit[j]);&lt;br /&gt;
+    }
+    else
+    {
+      Serial.printf(“%d, “, read_sddata_8bit[j]);
+    }
+  }
+  // ########### data-8bit reading and writing speed ############# 
+```&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The ouput of this code-segment looks like following:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+Start writing 8-bit from 0-99.....
+Writing 0-99 complete--8-bit writing speed: 856531.06 bit/s
+Start reading 8-bit from sd card.....
+Reading finish--8-bit reading speed: 344679.03 bit/s
+Checking 8-bit read data (0-99)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We can see that the 8-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data writing speed in &lt;b&gt;SD-Card&lt;/b&gt; is about &lt;code class=&quot;highlighter-rouge&quot;&gt;850 Kb/s&lt;/code&gt;. Here, we write 100 8-bit data 1 by 1 in &lt;code class=&quot;highlighter-rouge&quot;&gt;while(i_8bit &amp;lt; total_data_write)&lt;/code&gt; loop.&lt;/li&gt;
+  &lt;li&gt;We read 100 8-bit data from &lt;b&gt;SD-Card&lt;/b&gt; 1 by 1 in &lt;code class=&quot;highlighter-rouge&quot;&gt;while(sdr_ret_val &amp;gt; 0)&lt;/code&gt; loop. In this case, we get the reading speed about &lt;code class=&quot;highlighter-rouge&quot;&gt;350 Kb/s&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;12. In the same way, we write and read 16-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data in &lt;b&gt;SD-Card&lt;/b&gt; and get the following Serial output in the terminal.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+Start writing 16-bit from 0-99.....
+Writing 0-99 complete--16-bit writing speed: 661703.88 bit/s
+Start reading 16-bit from sd card.....
+Reading finish--16-bit reading speed: 604001.50 bit/s
+Checking 16-bit read data (0-99)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We can see that the 16-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data writing speed in &lt;b&gt;SD-Card&lt;/b&gt; is about &lt;code class=&quot;highlighter-rouge&quot;&gt;662 Kb/s&lt;/code&gt;. Here, we write 100 16-bit data 1 by 1 in &lt;code class=&quot;highlighter-rouge&quot;&gt;while(i_16bit &amp;lt; total_data_write)&lt;/code&gt; loop.&lt;/li&gt;
+  &lt;li&gt;We read 100 16-bit &lt;b&gt;SD-Card&lt;/b&gt; data 1 by 1 in &lt;code class=&quot;highlighter-rouge&quot;&gt;while(sdr_ret_val &amp;gt; 0)&lt;/code&gt; loop. In this case, we get the reading speed about &lt;code class=&quot;highlighter-rouge&quot;&gt;600 Kb/s&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;13. In the same way, we write and read 32-bit and 64-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data in &lt;b&gt;SD-Card&lt;/b&gt; and get the following Serial output in the terminal.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Serial output for 32-bit data
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+Start writing 32-bit from 0-99.....
+Writing 0-99 complete--32-bit writing speed: 1317957.12 bit/s
+Start reading 32-bit from sd card.....
+Reading finish--32-bit reading speed: 1356507.00 bit/s
+Checking 32-bit read data (0-99)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Serial output for 64-bit data
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+Start writing 64-bit from 0-99.....
+Writing 0-99 complete--64-bit writing speed: 1437556.12 bit/s
+Start reading 64-bit from sd card.....
+Reading finish--64-bit reading speed: 1719043.75 bit/s
+Checking 64-bit read data (0-99)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Here, we get writing and reading speed about &lt;code class=&quot;highlighter-rouge&quot;&gt;1.3 Mb/s&lt;/code&gt; for 32-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data.&lt;/li&gt;
+  &lt;li&gt;For 64-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data, we get writing speed: &lt;code class=&quot;highlighter-rouge&quot;&gt;1.5 Mb/s&lt;/code&gt; and reading speed: &lt;code class=&quot;highlighter-rouge&quot;&gt;1.7 Mb/s&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;h3 id=&quot;we-have-found-that-the-bsd-cardb-write-read-operation-speed-is-quite-high-for-64-bit-int-type-data-than-8-16-32-bit-int-type-data&quot;&gt;We have found that the &lt;b&gt;SD-Card&lt;/b&gt; write-read operation speed is quite high for 64-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data than 8, 16, 32-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data.&lt;/h3&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;14. To speed-up the &lt;b&gt;SD-Card&lt;/b&gt; write-read operation, user must know the size of data, and store them in a predefined array. Then the &lt;b&gt;SD-Card&lt;/b&gt; write-read operation can be performed without using &lt;code class=&quot;highlighter-rouge&quot;&gt;while()&lt;/code&gt; loop and user can also write and read at a time by using &lt;code class=&quot;highlighter-rouge&quot;&gt;sd_file.write()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;sd_file.read()&lt;/code&gt; function, respectively. To do this, we first store from 0 to 99 64-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data to a &lt;code class=&quot;highlighter-rouge&quot;&gt;int64_t&lt;/code&gt; datatype array. After taht, pass the array to the &lt;code class=&quot;highlighter-rouge&quot;&gt;sd_file.write()&lt;/code&gt; function. In the same way, while we are going to read the data from &lt;b&gt;SD-Card&lt;/b&gt;, we have to pass an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;int64_t&lt;/code&gt; type array in &lt;code class=&quot;highlighter-rouge&quot;&gt;sd_file.read()&lt;/code&gt; function. The code looks like following:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;```cpp
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;*** writing at a time **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+  Serial.printf(“\nWrite and read at a time”);
+  // ########### data-64bit reading and writing speed #############
+  snprintf(chr_str, sizeof(chr_str), “/data_%dbit.bin”, sizeof(wrt_64bit_arr_insd[0])&lt;em&gt;8);
+  sd_file = SD.open(chr_str, FILE_WRITE);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;*** test–write integer in SD card **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;**
+  Serial.printf(“\n\n\nStart writing %d-bit from 0-%d…..”, sizeof(wrt_64bit_arr_insd[0])&lt;em&gt;8, total_data_write-1);
+  i_16bit = 0;
+  while(i_16bit &amp;lt; total_data_write)
+  {
+    wrt_64bit_arr_insd [i_16bit] = i_16bit;
+    i_16bit++;
+  }
+  start_tme = micros();
+  sd_file.write((const uint8_t *)&amp;amp;wrt_64bit_arr_insd, sizeof(wrt_64bit_arr_insd));
+  end_tme = micros();
+  // Serial.printf(“\n time: %.2f”, float(end_tme - start_tme));
+  wrt_spd = float(sizeof(wrt_64bit_arr_insd) * 8.0) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(“\nWriting 0-%d complete–%d-bit writing speed: %.2f bit/s”, total_data_write-1, sizeof(wrt_64bit_arr_insd[0])&lt;/em&gt;8, wrt_spd);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt; test–write integer in SD card &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+  sd_file.close();&lt;/p&gt;
+
+&lt;p&gt;// &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt; test–read data from SD card &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+  Serial.printf(“\nStart reading %d-bit from sd card…..”, sizeof(wrt_64bit_arr_insd[0])&lt;em&gt;8);
+  sd_file = SD.open(chr_str, FILE_READ);
+  start_tme = micros();
+  sd_file.read((uint8_t *)&amp;amp;read_64bit_arr_frsd, sizeof(read_64bit_arr_frsd));
+  end_tme = micros();
+  // Serial.printf(“\n time: %.2f”, float(end_tme - start_tme));
+  red_spd = float(sizeof(read_64bit_arr_frsd) * 8.0) * 1000.0 * 1000.0 / float(end_tme - start_tme);
+  Serial.printf(“\nReading finish–%d-bit reading speed: %.2f bit/s”, sizeof(wrt_64bit_arr_insd[0])&lt;/em&gt;8, red_spd);
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt; test–read data from SD card &lt;strong&gt;**&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+  sd_file.close();&lt;/p&gt;
+
+&lt;p&gt;Serial.printf(“\nChecking %d-bit read data (0-%d)\n”, sizeof(wrt_64bit_arr_insd[0])&lt;em&gt;8, total_data_write-1);
+  for(int j=0; j &amp;lt; total_data_write; j++)
+  {
+    if(j == total_data_write-1)
+    {
+      Serial.printf(“%lld”, read_64bit_arr_frsd[j]);&lt;br /&gt;
+    }
+    else
+    {
+      Serial.printf(“%lld, “, read_64bit_arr_frsd[j]);
+    }
+  }
+  // ########### data-64bit reading and writing speed #############
+  // &lt;strong&gt;**&lt;/strong&gt;&lt;/em&gt;&lt;strong&gt;** writing at a time **&lt;/strong&gt;&lt;strong&gt;**&lt;/strong&gt;
+```&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;The necessary variables for the above code is:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+int64_t wrt_64bit_arr_insd[total_data_write];
+int64_t read_64bit_arr_frsd[total_data_write];
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;span style=&quot;font-family: Verdana&quot;&gt; &lt;span style=&quot;font-size: 12pt&quot;&gt;The serial output of the above codes looks like following:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cpp
+Start writing 64-bit from 0-99.....
+Writing 0-99 complete--64-bit writing speed: 1831711.50 bit/s
+Start reading 64-bit from sd card.....
+Reading finish--64-bit reading speed: 2181322.50 bit/s
+Checking 64-bit read data (0-99)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Here, we have found that the writing speed is about &lt;code class=&quot;highlighter-rouge&quot;&gt;1.8 Mb/s&lt;/code&gt; and the reading speed is about &lt;code class=&quot;highlighter-rouge&quot;&gt;2 Mb/s&lt;/code&gt; which is much higher than the above &lt;b&gt;SD-Card&lt;/b&gt; write-read speed, shown from section 11 to 13.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;this-kind-of-code-will-help-to-read-and-write-int-type-data-in-sd-card-in-mbs-speed-which-is-fast-enough-to-develop-any-user-oriented-application&quot;&gt;This kind of code will help to read and write &lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt; type data in SD-Card in &lt;code class=&quot;highlighter-rouge&quot;&gt;Mb/s&lt;/code&gt; speed which is fast enough to develop any user-oriented application.&lt;/h3&gt;
+</description>
+        <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
+        <link>https://rappysaha.github.io/2021/05/29/mdfile_sdcard_wrspeed.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/2021/05/29/mdfile_sdcard_wrspeed.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Xilinx IP - Frame Buffer Read</title>
         <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
@@ -26,9 +697,41 @@
 &lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 24 May 2021 00:34:33 +0900</pubDate>
-        <link>https://rappysaha.github.io/jekyll/update/2021/05/24/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">https://rappysaha.github.io/jekyll/update/2021/05/24/welcome-to-jekyll.html</guid>
+        <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
+        <link>https://rappysaha.github.io/jekyll/update/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/jekyll/update/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>Ubuntu login not Working.</title>
+        <description>&lt;p&gt;I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this &lt;a href=&quot;https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&amp;amp;text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.&quot;&gt;post&lt;/a&gt;. I did not follow accordingly, and I just tried to install Guest edition from the following option.&lt;/p&gt;
+&lt;tr&gt;
+  &lt;td&gt;&lt;img src=&quot;screenshot1.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
+        <link>https://rappysaha.github.io/jekyll/update/2021/05/29/Ubuntu-login-not-Working.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/jekyll/update/2021/05/29/Ubuntu-login-not-Working.html</guid>
         
         
         <category>jekyll</category>
