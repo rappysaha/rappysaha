@@ -9,6 +9,8 @@ I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display re
   <td><img src="screenshot1.png" style="width:100%"></td>
 </tr>
 <br>
+<img src="{{site.baseurl}}/_posts/screenshot1.png">
+
 It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. <br><br>
 <b>Solution</b>
 <br>Press `ctrl+alt+F3` for the tty login page. (This can be ctrl+alt+(press any button in between F1-F7, see which one works for you))<br>

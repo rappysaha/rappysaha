@@ -5,8 +5,8 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 15:14:21 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 15:14:21 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 16:27:17 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 16:27:17 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -715,7 +715,9 @@ Checking 64-bit read data (0-99)
   &lt;td&gt;&lt;img src=&quot;screenshot1.png&quot; style=&quot;width:100%&quot; /&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;p&gt;&lt;br /&gt;
-It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. &lt;br /&gt;&lt;br /&gt;
+&lt;img src=&quot;/_posts/screenshot1.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. &lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;Solution&lt;/b&gt;
 &lt;br /&gt;Press &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+alt+F3&lt;/code&gt; for the tty login page. (This can be ctrl+alt+(press any button in between F1-F7, see which one works for you))&lt;br /&gt;
 Give username. Press Enter.&lt;br /&gt;
