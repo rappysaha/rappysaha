@@ -5,27 +5,145 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 16:57:23 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 16:57:23 +0900</lastBuildDate>
+    <pubDate>Sun, 30 May 2021 02:54:15 +0900</pubDate>
+    <lastBuildDate>Sun, 30 May 2021 02:54:15 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
-        <title>Xilinx IP - Frame Buffer Read</title>
-        <description>&lt;p&gt;Coming soon…&lt;/p&gt;
+        <title>Xilinx IP - Frame Buffer Read Example</title>
+        <description>&lt;p&gt;&lt;b&gt;Device name:&lt;/b&gt; Zybo. (Zynq-7000)&lt;br /&gt;
+&lt;b&gt;Vivado Version:&lt;/b&gt; 2020.2.&lt;br /&gt;
+&lt;b&gt;Goal:&lt;/b&gt;  To write unique frames in the DDR3 memory capacity and read-out frame by frame as well as display the frames with a variable refresh rate. Real goal is the avoidance of the painful VDMA IP and using a lighter IP.&lt;br /&gt;
+&lt;b&gt;Github repo:&lt;/b&gt; &lt;a href=&quot;https://github.com/rappysaha/FrameBufferRead.git&quot;&gt;https://github.com/rappysaha/FrameBufferRead.git&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;how-to-regenerate-the-project&quot;&gt;How to regenerate the project&lt;/h1&gt;
+&lt;p&gt;&lt;b&gt;Step 1:&lt;/b&gt; Download the Git repo in your local directory.&lt;br /&gt;
+&lt;b&gt;Step 2:&lt;/b&gt; Vivado 2020.2 should be installed and Zybo boardfiles should be in place. Please follow the &lt;a href=&quot;https://reference.digilentinc.com/vivado/installing-vivado/start#installing_digilent_board_files&quot;&gt;guide from Digilent&lt;/a&gt; to install the board files perfectly. &lt;br /&gt;
+&lt;b&gt;Step3:&lt;/b&gt; Open the vivado go to the Tcl console. &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to the saved location of the github repo&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd &amp;lt;saved location of git repo&amp;gt;/FrameBufferRead/Prj_FBR/&lt;/code&gt;&lt;br /&gt;
+press Enter&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;source ./FBR.tcl&lt;/code&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;vivado will regenerate the project.&lt;br /&gt;
+&lt;b&gt;Step4:&lt;/b&gt; Synthesize, Implement and generate bit stream in the Vivado.&lt;br /&gt;
+&lt;b&gt;Step5:&lt;/b&gt; Export the hardware, .xsa file with bitstream included.&lt;br /&gt;
+&lt;b&gt;Step6:&lt;/b&gt; Setup a Application project with .xsa file that has be exported. Again, you can follow the &lt;a href=&quot;https://reference.digilentinc.com/programmable-logic/guides/getting-started-with-ipi#launch_vitis&quot;&gt;guide from the Digilent&lt;/a&gt;.&lt;br /&gt; 
+&lt;b&gt;Step7:&lt;/b&gt; Copy all the src files from the&lt;br /&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;saved location git repo&amp;gt;/FrameBufferRead/Prj_FBR/VitisSrcFIles/&lt;/code&gt;.&lt;br /&gt;
+&lt;b&gt;Step8:&lt;/b&gt; Build the project and connect the Zybo Board. Open the terminal with baudrate 115200. Connect a VGA or HDMI display.&lt;br /&gt; 
+&lt;b&gt;Step9:&lt;/b&gt; Lunch application project in the Zybo by download the .elf file and .bit file in the Zynq Soc. Follow the &lt;a href=&quot;https://reference.digilentinc.com/programmable-logic/guides/getting-started-with-ipi#launch_a_vitis_baremetal_software_application&quot;&gt;Digilent guideline&lt;/a&gt; here again. &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Successfully, you are running the project. &lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;ip-schematic-design&quot;&gt;IP Schematic Design&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png&quot; style=&quot;width:100%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Required IPs:&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Zynq7 Processing System: After block automation, the &lt;code class=&quot;highlighter-rouge&quot;&gt;S_AXI_HP0&lt;/code&gt; interface was enabled to read out the data from DDR3. The Pl to Ps interrupt was also enabled. The required clocks were also generated from the Zynq also. Three different clocks can be required here.&lt;br /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;M_AXI_GPIO clock: 100 MHz (default). &lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;S_AXI_HP0 clock: 200MHz. Depends how fast do you want to read out the video. It can be same as M_AXI_GPIO clock, if we do not have any specific read out requirements.&lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;Clock for VGA and DVI Ips: 74.25 MHz. Depends on output video resolution, in our case it is 720p.&lt;br /&gt;&lt;br /&gt;
+&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png&quot; style=&quot;float:right;width:30%;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Frame Buffer Read IP: This IP is used to read out frames from the DDR3. &lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;AXI4 Stream to Video Out IP: This IP helps to convert AXI4 stream data to the RGB data that will be used by VGA or DVI IP. It can bridge between read out speed and display frequency.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;The Video Timing Controller: This IP will generate the required timing signals for the desired display resolution.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Video Lock Monitor IP: This has input from the AXI4 Stream to Video Out IP. The locked signal from the AXI4 Stream to Video Out IP is monitored by the Video Lock Monitor IP. &lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;HLS Reset IP: This will help to reset the Frame Buffer Read IP asynchronously for any time by software. &lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Rgb2vga IP: By this we can connect a VGA display for the output.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Rgb2Dvi IP: By this IP we can connect a HDMI display for the output.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;vitis-part&quot;&gt;Vitis Part&lt;/h1&gt;
+&lt;p&gt;After regenerating the project if we move to the Vitis part. In the Vitis we took the bare metal approach. Following description will be helpful to understand the steps of the &lt;code class=&quot;highlighter-rouge&quot;&gt;main.c&lt;/code&gt; file.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Step 1:&lt;/b&gt; Reset the FBR IP,&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;gpio_hlsIpReset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XPAR_HLS_IP_RESET_BASEADDR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gpio_hlsIpReset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 2:&lt;/b&gt; Setting up the interrupts and connect it with the ScuGic. Setting up interrupt can be quite confusing some time. If you are using Zynq device, &lt;a href=&quot;http://indico.ictp.it/event/7987/session/38/contribution/142/material/slides/0.pdf&quot;&gt;this presentation&lt;/a&gt; explains the matter quite clearly and it is really easy to follow. My Approach is more or less similar to the presentation.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SetupInterrupts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ScuGic_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FBR_INTR_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XST_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:: Interrupt Setup Failed&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:: Test could not be completed&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 3:&lt;/b&gt; Initialize rest of the IPs in your design. We have initialized here video timing controller, FBR and GPIO that is used for check out the locking of the video output.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DriverInit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VTC_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FBR_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GPIO_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vtc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vmon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XST_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:: Driver Initialization Failed&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR:: Test could not be completed&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 4:&lt;/b&gt; Setting up the callback functions. Most important part of this application. Here, we have connected a function namned &lt;code class=&quot;highlighter-rouge&quot;&gt;XVFrameBufferCallback()&lt;/code&gt; whenever the there is and interrupt from the FBR IP. Whenever we go to that function the required variables can be accessed via &lt;code class=&quot;highlighter-rouge&quot;&gt;frmbufrd&lt;/code&gt; structure.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;XVFrmbufRd_SetCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XVFRMBUFRD_HANDLER_DONE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XVFrameBufferCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                           &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 5:&lt;/b&gt; Setting up the parameters to configure the Vtc the FBR in the next step. This the place where &lt;code class=&quot;highlighter-rouge&quot;&gt;#include &quot;xvidc.h&quot;&lt;/code&gt; header file comes handy. Thanks to Xilinx for providing such a wonderful header file to configure the IPs related to the video or image processing.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PixPerClk&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FrmbufRd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PixPerClk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ColorDepth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frmbufrd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FrmbufRd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MaxDataWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Get video format to test
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cfmt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ColorFormats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MemFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ColorFormatId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ColorFormats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StreamFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Get mode to test
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VmId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OutputModes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Validate testcase format and mode -- Do not need
+// Get mode timing parameters
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TimingPtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XVidC_GetTimingInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VmId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Timing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TimingPtr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FrameRate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XVidC_GetFrameRate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VmId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 6:&lt;/b&gt; At this point, we will write three unique frames to the DDR3 those read out later by FBR IP at different refresh rate and will be displayed at the monitor.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// write memory frame by frame
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frmPtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XVFRMBUFRD_BUFFER_BASEADDR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Demo1Frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;frmPtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XVFRMBUFRD_BUFFER_BASEADDR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2A3000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Demo1Frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;frmPtr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XVFRMBUFRD_BUFFER_BASEADDR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2A3000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2A3000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Demo1Frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 7:&lt;/b&gt; Configure the vtc according to our expected output video resolution. Then configure the FBR to tell the starting address of the Frame and also notify the FBR how the pixel data is written in the memory. FrameBuffer read IP will be start after that.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Configure VTC
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConfigVtc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Configure Frame Buffer
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConfigFrmbuf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEMO_STRIDE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Cfmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VidStream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 8:&lt;/b&gt; Printing the menu in the terminal and waiting for the user input from the terminal.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;PrintMenu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//go to the while loop
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoRun&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
-        <link>https://rappysaha.github.io/jekyll/update/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</link>
-        <guid isPermaLink="true">https://rappysaha.github.io/jekyll/update/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</guid>
+        <link>https://rappysaha.github.io/posts-blog/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/posts-blog/2021/05/29/Xilinx-IP-Frame-Buffer-Read.html</guid>
         
         
-        <category>jekyll</category>
-        
-        <category>update</category>
+        <category>posts-Blog</category>
         
       </item>
     
       <item>
-        <title>Ubuntu login not Working in VM.</title>
+        <title>Ubuntu login not Working in VM</title>
         <description>&lt;p&gt;I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this &lt;a href=&quot;https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&amp;amp;text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.&quot;&gt;post&lt;/a&gt;. I did not follow accordingly, and I just tried to install Guest edition from the following option.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/image/screenshot1.png&quot; /&gt;&lt;/p&gt;
@@ -57,16 +175,16 @@ In the &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder
 &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt clean&lt;/code&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt autoremove&lt;/code&gt;&lt;br /&gt;
 &lt;br /&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;df -h&lt;/code&gt; &lt;br /&gt;
-We will see the above screen shot with out any extra &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder.&lt;/p&gt;
+We will see the above screen shot with out any extra &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; folder.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Restart the Ubuntu and Hopefully, you can log in now.!!&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
-        <link>https://rappysaha.github.io/jekyll/update/2021/05/29/Ubuntu-login-not-Working.html</link>
-        <guid isPermaLink="true">https://rappysaha.github.io/jekyll/update/2021/05/29/Ubuntu-login-not-Working.html</guid>
+        <link>https://rappysaha.github.io/posts-blog/2021/05/29/Ubuntu-login-not-Working.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/posts-blog/2021/05/29/Ubuntu-login-not-Working.html</guid>
         
         
-        <category>jekyll</category>
-        
-        <category>update</category>
+        <category>posts-Blog</category>
         
       </item>
     

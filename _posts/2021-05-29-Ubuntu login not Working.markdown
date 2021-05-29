@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Ubuntu login not Working in VM."
+title:  "Ubuntu login not Working in VM"
 date:   2021-05-29 
-categories: jekyll update
+categories: posts-Blog
 ---
 I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this [post](https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.). I did not follow accordingly, and I just tried to install Guest edition from the following option.
 
@@ -35,4 +35,6 @@ Oh! NOW I can see my rpprnx folder in the location of `/home/home/rpprnx`. To so
 `sudo apt clean`<br>
 `sudo apt autoremove`<br>
 <br>Run `df -h` <br>
-We will see the above screen shot with out any extra `/home` folder.
+We will see the above screen shot with out any extra `/home` folder.<br>
+
+Restart the Ubuntu and Hopefully, you can log in now.!!

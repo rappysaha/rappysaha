@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Welcome to Jekyll!</title>
-  <meta name="description" content="You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...">
+  <title>Ubuntu login not Working in VM</title>
+  <meta name="description" content="I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this post. I di...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://rappysaha.github.io/jekyll/update/2021/05/24/welcome-to-jekyll.html">
+  <link rel="canonical" href="https://rappysaha.github.io/posts-blog/2021/05/29/Ubuntu-login-not-Working.html">
   <link rel="alternate" type="application/rss+xml" title="Rappy Saha" href="https://rappysaha.github.io/feed.xml">
 </head>
 
@@ -65,25 +65,45 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2021-05-24T00:34:33+09:00" itemprop="datePublished">May 24, 2021</time></p>
+    <h1 class="post-title" itemprop="name headline">Ubuntu login not Working in VM</h1>
+    <p class="post-meta"><time datetime="2021-05-29T00:00:00+09:00" itemprop="datePublished">May 29, 2021</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+    <p>I was working with Virtualbox 6.1 with ubuntu distribution 18.04. The display resolution was too small and I wanted to change it by following this <a href="https://www.nakivo.com/blog/make-virtualbox-full-screen/#:~:text=In%20order%20to%20fix%20this,CD%20drive%20of%20the%20VM.&amp;text=Now%20you%20can%20maximize%20the,of%20the%20Windows%2010%20guest.">post</a>. I did not follow accordingly, and I just tried to install Guest edition from the following option.</p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p><img src="/image/screenshot1.png" /></p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>It messed up my full distro. After installation and rebooting the ubuntu, even if I was giving the right password, I cannot pass the login screen. <br /><br />
+<b>Solution</b>
+<br />Press <code class="highlighter-rouge">ctrl+alt+F3</code> for the tty login page. (This can be ctrl+alt+(press any button in between F1-F7, see which one works for you))<br />
+Give username. Press Enter.<br />
+Give the Password. Press Enter.<br />
+If you can login, there is still hope for you. <br /></p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<p>Run <code class="highlighter-rouge">df -h</code> <br /></p>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<p><img src="/image/screenshot2.png" /></p>
 
+<p>We can see the <code class="highlighter-rouge">/dev/sda1</code> that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra <code class="highlighter-rouge">/home</code> folder in the column of Mounted on (that is not showing when the problem was solved).<br />
+Tried to cd <code class="highlighter-rouge">/home</code> but no permission.<br /></p>
+
+<p><code class="highlighter-rouge">sudo ls -al /home</code><br />
+<br />
+In the <code class="highlighter-rouge">/home</code> folder I could not see my user folder rpprnx (username). At this point, we can understand our distro is not booting from our desired sata drive (in my case <code class="highlighter-rouge">/dev/sda1</code>). To see the details of <code class="highlighter-rouge">dev/sda1</code>,<br /></p>
+
+<p><code class="highlighter-rouge">sudo mount /dev/sda1 /home</code><br />
+<code class="highlighter-rouge">sudo ls -al /home</code><br /></p>
+
+<p>Oh! NOW I can see my rpprnx folder in the location of <code class="highlighter-rouge">/home/home/rpprnx</code>. To solve the problem, I ran following commands from this <a href="https://askubuntu.com/questions/882385/dev-sda1-clean-this-message-appears-after-i-startup-my-laptop-then-it-w">post</a>.</p>
+
+<p><code class="highlighter-rouge">sudo apt update</code><br />
+<code class="highlighter-rouge">sudo apt clean</code><br />
+<code class="highlighter-rouge">sudo apt autoremove</code><br />
+<br />Run <code class="highlighter-rouge">df -h</code> <br />
+We will see the above screen shot with out any extra <code class="highlighter-rouge">/home</code> folder.<br /></p>
+
+<p>Restart the Ubuntu and Hopefully, you can log in now.!!</p>
 
   </div>
 
