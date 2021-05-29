@@ -17,10 +17,10 @@ Give the Password. Press Enter.<br>
 If you can login, there is still hope for you. <br>
 
 Run `df -h` <br>
-<tr>
-  <td><img src="screenshot2.png" style="width:100%"></td>
-</tr>
-<br>
+{% raw %}
+<a href="screenshot2.png" title="View larger picture"><img src="screenshot2.png" alt="screenshot2.png"
+style="width:100%;"/></a>
+{% endraw %}
 We can see the `/dev/sda1` that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra `/home` folder in the column of Mounted on (that is not showing when the problem was solved).<br>
 Tried to cd `/home` but no permission.<br>
 

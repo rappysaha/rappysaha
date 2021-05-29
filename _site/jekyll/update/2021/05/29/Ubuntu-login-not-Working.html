@@ -83,11 +83,10 @@ Give the Password. Press Enter.<br />
 If you can login, there is still hope for you. <br /></p>
 
 <p>Run <code class="highlighter-rouge">df -h</code> <br /></p>
-<tr>
-  <td><img src="screenshot2.png" style="width:100%" /></td>
-</tr>
-<p><br />
-We can see the <code class="highlighter-rouge">/dev/sda1</code> that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra <code class="highlighter-rouge">/home</code> folder in the column of Mounted on (that is not showing when the problem was solved).<br />
+
+<p><a href="screenshot2.png" title="View larger picture"><img src="screenshot2.png" alt="screenshot2.png" style="width:100%;" /></a></p>
+
+<p>We can see the <code class="highlighter-rouge">/dev/sda1</code> that is actual drive that we have created during the installation. This screenshot was taken when the problem was solved. When I was facing the problem there was extra <code class="highlighter-rouge">/home</code> folder in the column of Mounted on (that is not showing when the problem was solved).<br />
 Tried to cd <code class="highlighter-rouge">/home</code> but no permission.<br /></p>
 
 <p><code class="highlighter-rouge">sudo ls -al /home</code><br />
