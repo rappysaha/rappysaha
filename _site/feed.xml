@@ -5,8 +5,8 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 30 May 2021 02:54:15 +0900</pubDate>
-    <lastBuildDate>Sun, 30 May 2021 02:54:15 +0900</lastBuildDate>
+    <pubDate>Sun, 30 May 2021 18:03:33 +0900</pubDate>
+    <lastBuildDate>Sun, 30 May 2021 18:03:33 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -131,6 +131,10 @@ press Enter&lt;br /&gt;
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;PrintMenu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;//go to the while loop
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoRun&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Here is the video demo of the project:&lt;/p&gt;
+&lt;div style=&quot;padding:62.5% 0 0 0;position:relative;&quot;&gt;&lt;iframe src=&quot;https://player.vimeo.com/video/542523167?badge=0&amp;amp;autopause=0&amp;amp;player_id=0&amp;amp;app_id=58479&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; fullscreen; picture-in-picture&quot; allowfullscreen=&quot;&quot; style=&quot;position:absolute;top:0;left:0;width:100%;height:100%;&quot; title=&quot;New Recording - 4/28/2021, 4:13:00 PM&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;script src=&quot;https://player.vimeo.com/api/player.js&quot;&gt;&lt;/script&gt;
 
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
