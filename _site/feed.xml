@@ -5,9 +5,146 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 01 Jun 2021 22:57:38 +0900</pubDate>
-    <lastBuildDate>Tue, 01 Jun 2021 22:57:38 +0900</lastBuildDate>
+    <pubDate>Sun, 20 Jun 2021 23:16:14 +0900</pubDate>
+    <lastBuildDate>Sun, 20 Jun 2021 23:16:14 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Zed Board HDMI Out Demo</title>
+        <description>&lt;p&gt;&lt;b&gt;Device name:&lt;/b&gt; ZED Board. (Zynq-7000)&lt;br /&gt;
+&lt;b&gt;Vivado Version:&lt;/b&gt; 2020.2.&lt;br /&gt;
+&lt;b&gt;Goal:&lt;/b&gt;  Test the Zed board HDMI port. &lt;br /&gt;
+&lt;b&gt;Github repo:&lt;/b&gt; &lt;a href=&quot;https://github.com/rappysaha/Zed_HDMI_OUT.git&quot;&gt;https://github.com/rappysaha/Zed_HDMI_OUT.git&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;how-to-regenerate-the-project&quot;&gt;How to regenerate the project&lt;/h1&gt;
+&lt;p&gt;&lt;b&gt;Step 1:&lt;/b&gt; Download the Git repo in your local directory.&lt;br /&gt;
+&lt;b&gt;Step 2:&lt;/b&gt; Vivado 2020.2 should be installed and Zed board boardfiles should be in place. Please follow the &lt;a href=&quot;https://reference.digilentinc.com/vivado/installing-vivado/start#installing_digilent_board_files&quot;&gt;guide from Digilent&lt;/a&gt; to install the board files perfectly. For this project the license for video test pattern generator IP will be required. Evaluation license will work also. &lt;br /&gt;
+&lt;b&gt;Step3:&lt;/b&gt; Open the vivado go to the Tcl console. &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to the saved location of the github repo&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd &amp;lt;saved location of git repo&amp;gt;/Zed_HDMI_OUT/&lt;/code&gt;&lt;br /&gt;
+press Enter&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;source ./create_proj.tcl&lt;/code&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;vivado will regenerate the project.&lt;br /&gt;
+&lt;b&gt;Step4:&lt;/b&gt; Synthesize, Implement and generate bit stream in the Vivado.&lt;br /&gt;
+&lt;b&gt;Step5:&lt;/b&gt; Export the hardware, .xsa file with bitstream included.&lt;br /&gt;
+&lt;b&gt;Step6:&lt;/b&gt; Setup a Application project with .xsa file that has be exported. Again, you can follow the &lt;a href=&quot;https://reference.digilentinc.com/programmable-logic/guides/getting-started-with-ipi#launch_vitis&quot;&gt;guide from the Digilent&lt;/a&gt;.&lt;br /&gt; 
+&lt;b&gt;Step7:&lt;/b&gt; Copy all the src files from the&lt;br /&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;saved location git repo&amp;gt;/Zed_HDMI_OUT/vitisSrcFile/&lt;/code&gt;.&lt;br /&gt;
+&lt;b&gt;Step8:&lt;/b&gt; Build the project and connect the Zed Board. Open the terminal with baudrate 115200. Connect a HDMI display.&lt;br /&gt; 
+&lt;b&gt;Step9:&lt;/b&gt; Lunch application project in the Zed by download the .elf file and .bit file in the Zynq Soc. Follow the &lt;a href=&quot;https://reference.digilentinc.com/programmable-logic/guides/getting-started-with-ipi#launch_a_vitis_baremetal_software_application&quot;&gt;Digilent guideline&lt;/a&gt; here again. &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Successfully, you are running the project. &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;NB: During the synthesis, if you have any warning similar to the following warning, reducing the path length of the project will help.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WARNING: [IP_Flow 19-4318] IP-XACT file does not exist: d:/Test/Zed_HDMI_OUT/proj_1/proj_1.srcs/sources_1/bd/ZED_Hdmi_Out/ip/ZED_Hdmi_Out_v_tpg_0_0/ZED_Hdmi_Out_v_tpg_0_0.xml. It will be created.&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;ip-schematic-design&quot;&gt;IP Schematic Design&lt;/h1&gt;
+&lt;!-- &lt;img src=&quot;/image/Zed Board HDMI Out Demo/IP_Schematic.png&quot; style=&quot;width:100%;&quot;&gt; --&gt;
+&lt;p&gt;&lt;a href=&quot;/image/Zed Board HDMI Out Demo/IP_Schematic.png&quot; title=&quot;View larger picture&quot;&gt;&lt;img src=&quot;/image/Zed Board HDMI Out Demo/IP_Schematic.png&quot; alt=&quot;IP Schematic&quot; style=&quot;width:100%;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Required IPs:&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Zynq7 Processing System: It will help to connect Axi based pripherall to control the parameters from the OS side. In our case, AXI based IIC controller and video Test pattern generator parameters will be controlled by the Zynq processing system in the OS side.&lt;/li&gt;
+  &lt;li&gt;AXI IIC IP: This I2C IP is the main requirement for the Zed board HDMI configuration. The I2C IP is required to configure the ADV7511 chip. We need to supply the 16-bit video data to the ADV7511 since it will accept only 16-bit from the FPGA. In the XDC file of the Zed Board, we can see the 16-bit data connection for the HDMI part.&lt;/li&gt;
+  &lt;li&gt;Video Test Pattern Generator IP: The test pattern generator will generate 720p test pattern. The clock of the video timing controller will depend on the selected resolution.&lt;/li&gt;
+  &lt;li&gt;Video Timing Controller: The timing controller for this example is in the native mode to keep the example as simple as possible.&lt;/li&gt;
+  &lt;li&gt;AXI4 Stream to Video Out IP: Video Out IP will be configured in the independent mode. The video out clock will be same as the video timing controller clock. The output of the Video out IP will be connected to the ADV7511 input. In this example, we are not considering audio output via HDMI.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;vitis-part&quot;&gt;Vitis Part&lt;/h1&gt;
+&lt;p&gt;After regenerating the project, if we move to the Vitis part. In the Vitis, we took the bare metal approach. Following description will be helpful to understand the steps of the &lt;code class=&quot;highlighter-rouge&quot;&gt;main.c&lt;/code&gt; file.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Step 1:&lt;/b&gt; Initialize the AXI IIC interface&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zed_iic_axi_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ZED HDMI I2C Controller&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IIC_BASEADDR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ERROR : Failed to initialize IIC driver&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;IIC initialization Successful&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 2:&lt;/b&gt; Hot plug detection system. It is not an interrupt based system, usually hot plug detection system should be an interrupt based system. Therefore, it will detect the HPD signal for once.&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mon_conn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;mon_conn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;check_hdmi_hpd_status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x39&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mon_conn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;HDMI Connected&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;HDMI NOT - Connected&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 3:&lt;/b&gt; Configuring particular registers of the ADV7511 via I2C. These are the predefined registers, defined by the Avnet.&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;HDMI_config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;HDMI Setup Complete!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Step 4:&lt;/b&gt; Initializing test pattern generator (TPG), configuring TPG and Start TPG&lt;br /&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XV_tpg_Initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TPG_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XST_SUCCESS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xil_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TPG configuration failed&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XST_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Set Resolution to 1280x720
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;720&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1280&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Set Color Space to YUV422
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_colorFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_bckgndId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XTPG_BKGND_COLOR_BARS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Set	 Overlay to moving box
+// Set the size of the box
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_boxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Set the speed of the box
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_motionSpeed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Enable the moving box
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_Set_ovrlayId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//Start the TPG
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XV_tpg_EnableAutoRestart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;XV_tpg_Start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tpg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The LED 0 of the Zed board will be turned on when video output will be locked. At the end, no specific HDMI IP is required for the Zed Board HDMI since ADV7511 is doing most of the work. On the other hand, board like Zybo do not have this ADV7511 chip, therefore, RGB2DVI IP from Digilent was quite helpful.&lt;/p&gt;
+
+&lt;h1 id=&quot;demo&quot;&gt;Demo&lt;/h1&gt;
+&lt;p&gt;The Zed Board connection:
+&lt;a href=&quot;/image/Zed Board HDMI Out Demo/Zed Board Connection.jpg&quot; title=&quot;View larger picture&quot;&gt;&lt;img src=&quot;/image/Zed Board HDMI Out Demo/Zed Board Connection.jpg&quot; alt=&quot;IP Schematic&quot; style=&quot;width:100%;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the video demo of the project:&lt;/p&gt;
+&lt;div style=&quot;padding:62.5% 0 0 0;position:relative;&quot;&gt;&lt;iframe src=&quot;https://player.vimeo.com/video/564511236?badge=0&amp;amp;autopause=0&amp;amp;player_id=0&amp;amp;app_id=58479&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; fullscreen; picture-in-picture&quot; allowfullscreen=&quot;&quot; style=&quot;position:absolute;top:0;left:0;width:100%;height:100%;&quot; title=&quot;ZedBoard HDMI Test - 6/18/2021, 4:06:36 PM&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;script src=&quot;https://player.vimeo.com/api/player.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;references&quot;&gt;References:&lt;/h1&gt;
+&lt;p&gt;The project was created by the help of the following links.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://forums.xilinx.com/t5/Video-and-Audio/Video-Series-19-Using-the-On-Board-HDMI-on-ZC702-Vivado-design/td-p/914989&quot;&gt;Xilinx Video Series 19&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://forums.xilinx.com/t5/Video-and-Audio/Video-Series-20-Starting-with-SDK-and-configuring-the-ADV7511/m-p/917308#M23024%2Fjump-to%2Ffirst-unread-message&quot;&gt;Xilinx Video Series 20&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://forums.xilinx.com/t5/Video-and-Audio/Video-Series-21-TPG-Application-on-ZC702/td-p/922324&quot;&gt;Xilinx Video Series 21&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The above mentioned series targeted ZC702 board while this project is all about Zed board. Lots of similarities but simple difference is there and that is also discussed in the &lt;a href=&quot;https://forums.xilinx.com/t5/Video-and-Audio/Zedboard-HDMI-Display-Failed-to-Access-ADV7511-via-I2C/td-p/1054540&quot;&gt;Xilinx forum&lt;/a&gt; by the author of the above series. Depending on this discussion this project was build. There is slight modification in HDMI configuration.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 19 Jun 2021 00:00:00 +0900</pubDate>
+        <link>https://rappysaha.github.io/posts-blog/2021/06/19/Zed-Board-HDMI-Out-Demo.html</link>
+        <guid isPermaLink="true">https://rappysaha.github.io/posts-blog/2021/06/19/Zed-Board-HDMI-Out-Demo.html</guid>
+        
+        
+        <category>posts-Blog</category>
+        
+      </item>
     
       <item>
         <title>Xilinx IP - Frame Buffer Read Example</title>
