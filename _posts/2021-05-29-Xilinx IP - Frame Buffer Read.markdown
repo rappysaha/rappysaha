@@ -29,7 +29,9 @@ vivado will regenerate the project.<br>
 Successfully, you are running the project. <br>
 
 # IP Schematic Design
-<img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png" style="width:100%;">
+<!-- <img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png" style="width:100%;"> -->
+<a href="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png" title="View larger picture"><img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png" alt="IP Schematic"
+style="width:100%;"/></a>
 
 <b>Required IPs:</b><br>
 
@@ -37,7 +39,9 @@ Successfully, you are running the project. <br>
 * M_AXI_GPIO clock: 100 MHz (default). <br>
 * S_AXI_HP0 clock: 200MHz. Depends how fast do you want to read out the video. It can be same as M_AXI_GPIO clock, if we do not have any specific read out requirements.<br>
 * Clock for VGA and DVI Ips: 74.25 MHz. Depends on output video resolution, in our case it is 720p.<br><br>
-<img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png" style="float:right;width:30%;">
+<!-- <img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png" style="float:right;width:30%;"> -->
+<a href="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png" title="View larger picture"><img src="{{site.baseurl}}/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png" alt="IP Schematic"
+style="float:right;width:30%;"/></a>
 2. Frame Buffer Read IP: This IP is used to read out frames from the DDR3. <br>
 3. AXI4 Stream to Video Out IP: This IP helps to convert AXI4 stream data to the RGB data that will be used by VGA or DVI IP. It can bridge between read out speed and display frequency.<br>
 4. The Video Timing Controller: This IP will generate the required timing signals for the desired display resolution.<br>

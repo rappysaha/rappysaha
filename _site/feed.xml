@@ -5,8 +5,8 @@
     <description></description>
     <link>https://rappysaha.github.io/</link>
     <atom:link href="https://rappysaha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 Jun 2021 23:16:14 +0900</pubDate>
-    <lastBuildDate>Sun, 20 Jun 2021 23:16:14 +0900</lastBuildDate>
+    <pubDate>Sun, 20 Jun 2021 23:21:34 +0900</pubDate>
+    <lastBuildDate>Sun, 20 Jun 2021 23:21:34 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -173,7 +173,8 @@ press Enter&lt;br /&gt;
 &lt;p&gt;Successfully, you are running the project. &lt;br /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;ip-schematic-design&quot;&gt;IP Schematic Design&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png&quot; style=&quot;width:100%;&quot; /&gt;&lt;/p&gt;
+&lt;!-- &lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png&quot; style=&quot;width:100%;&quot;&gt; --&gt;
+&lt;p&gt;&lt;a href=&quot;/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png&quot; title=&quot;View larger picture&quot;&gt;&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/IP_Schematic.png&quot; alt=&quot;IP Schematic&quot; style=&quot;width:100%;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;b&gt;Required IPs:&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;
 
@@ -183,7 +184,8 @@ press Enter&lt;br /&gt;
       &lt;li&gt;M_AXI_GPIO clock: 100 MHz (default). &lt;br /&gt;&lt;/li&gt;
       &lt;li&gt;S_AXI_HP0 clock: 200MHz. Depends how fast do you want to read out the video. It can be same as M_AXI_GPIO clock, if we do not have any specific read out requirements.&lt;br /&gt;&lt;/li&gt;
       &lt;li&gt;Clock for VGA and DVI Ips: 74.25 MHz. Depends on output video resolution, in our case it is 720p.&lt;br /&gt;&lt;br /&gt;
-&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png&quot; style=&quot;float:right;width:30%;&quot; /&gt;&lt;/li&gt;
+&lt;!-- &lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png&quot; style=&quot;float:right;width:30%;&quot;&gt; --&gt;
+&lt;a href=&quot;/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png&quot; title=&quot;View larger picture&quot;&gt;&lt;img src=&quot;/image/Xilinx IP - Frame Buffer Read Example/FBR IP Workflow.png&quot; alt=&quot;IP Schematic&quot; style=&quot;float:right;width:30%;&quot; /&gt;&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Frame Buffer Read IP: This IP is used to read out frames from the DDR3. &lt;br /&gt;&lt;/li&gt;
